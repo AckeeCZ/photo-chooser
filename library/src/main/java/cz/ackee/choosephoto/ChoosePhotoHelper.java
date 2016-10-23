@@ -3,11 +3,9 @@ package cz.ackee.choosephoto;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.File;
 
@@ -16,7 +14,6 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-import static android.R.attr.x;
 import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.CAMERA_REQUEST;
 import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.GALLERY_REQUEST;
 
@@ -74,6 +71,12 @@ public class ChoosePhotoHelper {
                 final Uri finalUri = uri;
                 mOnPhotoPickedListener.onPhotoPicked(onPhotoPicked(finalUri, fromGallery));
             }
+        }
+    }
+
+    public void clear() {
+        if (!FileUtils.clearPhotosDir(mCtx)) {
+            Log.e(TAG, "The error occurred while trying to clear temporary photos folder.");
         }
     }
 

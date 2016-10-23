@@ -20,7 +20,7 @@ public class FileUtils {
     }
 
     public static File getTempPictureFile(Context context) {
-        File f = new File(getPhotosDir(context), "picture");
+        File f = new File(getPhotosDir(context), String.format("picture%s", Long.toString(System.currentTimeMillis())));
         if (!f.exists()) {
             try {
                 if (!f.createNewFile()) {
@@ -42,5 +42,26 @@ public class FileUtils {
     public static Uri getUriForCamera(Context ctx, String authority) {
         Uri imageUri = FileProvider.getUriForFile(ctx, authority, getTempPictureFile(ctx));
         return imageUri;
+    }
+
+    /**
+     * Clear and remove photos directory/
+     *
+     * @param ctx context
+     * @return true if deleted successfully
+     */
+    public static boolean clearPhotosDir(Context ctx) {
+        return deleteRecursive(getPhotosDir(ctx));
+    }
+
+    private static boolean deleteRecursive(File fileOrDirectory) {
+
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
+                deleteRecursive(child);
+            }
+        }
+
+        return fileOrDirectory.delete();
     }
 }
