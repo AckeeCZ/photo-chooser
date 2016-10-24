@@ -8,4 +8,4 @@ to add it tou your project.
 
 This library is in development and requires javadoc, tests and cleaning.
 
-For now the library creates images names with timestamps. In this version, the programmer should handle cleaning by himself. Just call `clear()' method when you don't need this temp photos anymore.
+For now the library creates images names with timestamps. In this version, the programmer should handle cleaning by himself. Just call `clear()` method when you don't need this temp photos anymore.
