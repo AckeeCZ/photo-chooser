@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_default_avatar"
+    />
+
+    <Button
+        android:id="@+id/btn_choose_photo"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Choose photo"
+    />
+
+    <Button
+        android:id="@+id/btn_choose_photo_with_crop"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Choose photo with crop"
+    />
+</LinearLayout>

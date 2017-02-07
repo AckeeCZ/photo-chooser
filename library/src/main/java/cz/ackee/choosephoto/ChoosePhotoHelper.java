@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.File;
 
+import cz.ackee.choosephoto.utils.FileUtils;
+import cz.ackee.choosephoto.utils.GalleryUtils;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -25,11 +28,14 @@ import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.GALLERY_REQUEST;
  * <p>
  * Created by Jan Stanek[jan.stanek@ackee.cz] on {30.11.15}
  **/
-public class ChoosePhotoHelper {
+public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltCallback {
     public static final String TAG = ChoosePhotoHelper.class.getName();
 
-    private final Context mCtx;
-    private final OnPhotoPickedListener mOnPhotoPickedListener;
+    private final Context ctx;
+    private final OnPhotoPickedListener onPhotoPickedListener;
+    private final OnPhotoCopyingListener onPhotoCopyingListener;
+    // last used uri
+    private Uri lastUri;
 
     /**
      * Constructor
@@ -37,16 +43,19 @@ public class ChoosePhotoHelper {
      * @param ctx                   Context
      * @param onPhotoPickedListener Interface for callback
      */
-    public ChoosePhotoHelper(@NonNull Context ctx, @NonNull OnPhotoPickedListener onPhotoPickedListener) {
-        mCtx = ctx;
-        mOnPhotoPickedListener = onPhotoPickedListener;
+    public ChoosePhotoHelper(@NonNull Context ctx, @NonNull OnPhotoPickedListener onPhotoPickedListener, @Nullable OnPhotoCopyingListener onPhotoCopyingListener) {
+        this.ctx = ctx;
+        this.onPhotoPickedListener = onPhotoPickedListener;
+        this.onPhotoCopyingListener = onPhotoCopyingListener;
     }
 
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
+     *
+     * @param applicationId application id (package name)
      */
-    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder() {
-        return new ChoosePhotoDialogFragment.Builder(mCtx);
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId) {
+        return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
     }
 
     /**
@@ -56,26 +65,28 @@ public class ChoosePhotoHelper {
      * @param resultCode  ResultCode
      * @param data        Intent
      */
-    public void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == GALLERY_REQUEST || requestCode == CAMERA_REQUEST) {
-                mOnPhotoPickedListener.photoCopying(true);
+                if (onPhotoCopyingListener != null) {
+                    onPhotoCopyingListener.photoCopying(true);
+                }
                 final boolean fromGallery = requestCode == GALLERY_REQUEST;
                 Uri uri;
                 if (!fromGallery) {
-                    uri = Uri.fromFile(FileUtils.getTempPictureFile(mCtx));
+                    uri = lastUri;
                 } else {
                     uri = data.getData();
                 }
                 final Uri finalUri = uri;
-                mOnPhotoPickedListener.onPhotoPicked(onPhotoPicked(finalUri, fromGallery));
+                onPhotoPickedListener.onPhotoPicked(onPhotoPicked(finalUri, fromGallery));
             }
         }
     }
 
     public void clear() {
-        if (!FileUtils.clearPhotosDir(mCtx)) {
+        if (!FileUtils.clearPhotosDir(ctx)) {
             Log.e(TAG, "The error occurred while trying to clear temporary photos folder.");
         }
     }
@@ -88,8 +99,7 @@ public class ChoosePhotoHelper {
                          @Override
                          public Boolean call(Object o) {
                              if (fromGallery) {
-                                 File tempPictureFile = FileUtils.getTempPictureFile(mCtx);
-                                 return GalleryUtils.copyUriToMyUri(mCtx, uri, Uri.fromFile(tempPictureFile));
+                                 return GalleryUtils.copyUriToMyUri(ctx, uri, Uri.fromFile(FileUtils.getPictureFile(ctx, lastUri.getLastPathSegment())));
                              }
                              return true;
                          }
@@ -98,27 +108,42 @@ public class ChoosePhotoHelper {
                 .map(new Func1<Boolean, File>() {
                     @Override
                     public File call(Boolean success) {
-                        return FileUtils.getTempPictureFile(mCtx);
+                        return FileUtils.getPictureFile(ctx, lastUri.getLastPathSegment());
                     }
                 })
                 .doOnNext(new Action1<File>() {
                     @Override
                     public void call(File file) {
-                        mOnPhotoPickedListener.photoCopying(false);
+                        if (onPhotoCopyingListener != null) {
+                            onPhotoCopyingListener.photoCopying(false);
+                        }
                     }
-                })
+                });
+    }
 
-           /*     .observeOn(AndroidSchedulers.mainThread())*/;
+    @Override
+    public void dialogBuilt(Uri uri) {
+        this.lastUri = uri;
     }
 
     /**
      * Interface to obtained picked image in a file
      */
     public interface OnPhotoPickedListener {
-        void onPhotoPicked(Observable<File> fileObservable);
-
         /**
-         * Photo has begin copying to our location
+         * Photo was picked
+         *
+         * @param fileObservable
+         */
+        void onPhotoPicked(Observable<File> fileObservable);
+    }
+
+    /**
+     * Interface indicating that copying is in progress
+     */
+    public interface OnPhotoCopyingListener {
+        /**
+         * Photo has begin copying
          *
          * @param isCopying boolean indicator if copying is proceeding
          */

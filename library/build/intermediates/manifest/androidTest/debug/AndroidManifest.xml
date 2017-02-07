@@ -4,7 +4,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="23" />
+        android:targetSdkVersion="25" />
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
@@ -13,10 +13,7 @@
         android:label="Tests for cz.ackee.choosephoto.test"
         android:targetPackage="cz.ackee.choosephoto.test" />
 
-    <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true" >
+    <application android:allowBackup="false" >
         <uses-library android:name="android.test.runner" />
     </application>
 
