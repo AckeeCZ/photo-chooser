@@ -27,4 +27,16 @@
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="Choose photo with crop"
     />
+
+    <Button
+        android:id="@+id/btn_choose_photo_custom_dialog"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Choose photo - custom dialog"
+    />
+
+    <Button
+        android:id="@+id/btn_take_picture_directly"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Open camera directly"
+    />
 </LinearLayout>

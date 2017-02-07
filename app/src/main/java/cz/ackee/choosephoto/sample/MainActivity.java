@@ -72,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
                 choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager());
             }
         });
+        findViewById(R.id.btn_choose_photo_custom_dialog).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true)
+                        .setPickPhotoString("Gallery selection")
+                        .setTakePhotoString("Selfie Time!")
+                        .setFileName("myselfie.jpg")
+                        .show(getSupportFragmentManager());
+            }
+        });
+        findViewById(R.id.btn_take_picture_directly).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showCamera(MainActivity.this);
+            }
+        });
     }
 
     @Override

@@ -167,5 +167,10 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
             pickPhoto.setType("image/*");
             activity.startActivityForResult(pickPhoto, GALLERY_REQUEST);//one can be replaced with any action code
         }
+
+        public Builder setFileName(String fileName) {
+            this.fileName = fileName;
+            return this;
+        }
     }
 }
