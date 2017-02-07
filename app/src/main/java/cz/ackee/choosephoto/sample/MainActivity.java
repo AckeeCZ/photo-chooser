@@ -66,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID).show(getSupportFragmentManager());
             }
         });
+        findViewById(R.id.btn_choose_photo_with_crop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager());
+            }
+        });
     }
 
     @Override

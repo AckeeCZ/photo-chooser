@@ -20,14 +20,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
-import com.isseiaoki.simplecropview.util.Utils;
-import com.yqritc.recyclerviewflexibledivider.FlexibleDividerDecoration;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
-
-import cz.ackee.babysitting.R;
-import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 /**
  * Utilities for UI related things like device size or conversion from dp to px

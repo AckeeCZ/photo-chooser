@@ -13,12 +13,15 @@ import java.io.File;
 import cz.ackee.choosephoto.utils.FileUtils;
 import cz.ackee.choosephoto.utils.GalleryUtils;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.CAMERA_REQUEST;
 import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.GALLERY_REQUEST;
+import static cz.ackee.choosephoto.CropPhotoFragment.KEY_FILE;
+import static cz.ackee.choosephoto.CropPhotoFragment.REQUEST_CROP;
 
 /**
  * Helper class for choosing an image from the device
@@ -34,6 +37,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
     private final Context ctx;
     private final OnPhotoPickedListener onPhotoPickedListener;
     private final OnPhotoCopyingListener onPhotoCopyingListener;
+    private boolean withCrop;
     // last used uri
     private Uri lastUri;
 
@@ -54,8 +58,18 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
      *
      * @param applicationId application id (package name)
      */
-    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId) {
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId, boolean withCrop) {
+        this.withCrop = withCrop;
         return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
+    }
+
+    /**
+     * Returns builder for creating ChoosePhotoDialogFragment
+     *
+     * @param applicationId application id (package name)
+     */
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId) {
+        return getChoosePhotoDialogBuilder(applicationId, false);
     }
 
     /**
@@ -80,7 +94,23 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
                     uri = data.getData();
                 }
                 final Uri finalUri = uri;
-                onPhotoPickedListener.onPhotoPicked(onPhotoPicked(finalUri, fromGallery));
+                Observable<File> fileObservable = onPhotoPicked(finalUri, fromGallery);
+                if (!withCrop) {
+                    onPhotoPickedListener.onPhotoPicked(fileObservable);
+                } else {
+                    fileObservable
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Action1<File>() {
+                                @Override
+                                public void call(File file) {
+                                    CropPhotoActivity.open(ctx, file.getAbsolutePath(), REQUEST_CROP);
+                                }
+                            });
+
+                }
+            }
+            if (requestCode == REQUEST_CROP) {
+                onPhotoPickedListener.onPhotoPicked(Observable.just(new File(data.getStringExtra(KEY_FILE))));
             }
         }
     }

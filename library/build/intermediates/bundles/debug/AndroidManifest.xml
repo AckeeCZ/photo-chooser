@@ -9,6 +9,9 @@
         android:targetSdkVersion="25" />
 
     <application android:allowBackup="false" >
+        <activity
+            android:name="cz.ackee.choosephoto.CropPhotoActivity"
+            android:theme="Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

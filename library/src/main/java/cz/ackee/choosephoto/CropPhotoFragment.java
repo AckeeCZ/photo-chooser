@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +36,7 @@ public class CropPhotoFragment extends Fragment {
     public static final String KEY_FILE = "file";
     public static final int REQUEST_CROP = 456;
     public static final int MAX_SIZE = 1080;
+
 
 
     CropImageView cropImageView;
@@ -154,7 +151,7 @@ public class CropPhotoFragment extends Fragment {
             @Override
             public void onSuccess(Uri outputUri) {
                 Intent intent = new Intent();
-                intent.putExtra("file", outputUri.getPath());
+                intent.putExtra(KEY_FILE, outputUri.getPath());
                 getActivity().setResult(Activity.RESULT_OK, intent);
                 getActivity().finish();
             }

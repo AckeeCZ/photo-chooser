@@ -5,6 +5,9 @@
     <application
         android:allowBackup="false">
 
+        <activity android:name=".CropPhotoActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        />
     </application>
 
 </manifest>
