@@ -2,6 +2,7 @@ package cz.ackee.choosephoto.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -101,4 +103,13 @@ public class UiUtils {
         return new int[]{screenWidth, screenHeight};
     }
 
+    public static int getColorAttribute(Context ctx, int attribute) {
+        TypedValue typedValue = new TypedValue();
+        int[] colorAttr = new int[]{attribute};
+        int indexOfAttr = 0;
+        TypedArray a = ctx.obtainStyledAttributes(typedValue.data, colorAttr);
+        int color = a.getColor(indexOfAttr, Color.WHITE);
+        a.recycle();
+        return color;
+    }
 }

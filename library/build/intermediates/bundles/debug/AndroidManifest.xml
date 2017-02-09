@@ -11,7 +11,7 @@
     <application android:allowBackup="false" >
         <activity
             android:name="cz.ackee.choosephoto.CropPhotoActivity"
-            android:theme="Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

@@ -16,10 +16,11 @@ import android.support.v7.app.AppCompatActivity;
 public class CropPhotoActivity extends AppCompatActivity {
     public static final String TAG = CropPhotoActivity.class.getName();
     private static final String FILENAME_KEY = "filename";
+    private static final String COLOR_KEY = "color";
 
 
-    public static void open(Context ctx, String filename, int requestCode) {
-        ((Activity) ctx).startActivityForResult(new Intent(ctx, CropPhotoActivity.class).putExtra(FILENAME_KEY, filename), requestCode);
+    public static void open(Context ctx, String filename, int tintColor, int requestCode) {
+        ((Activity) ctx).startActivityForResult(new Intent(ctx, CropPhotoActivity.class).putExtra(FILENAME_KEY, filename).putExtra(COLOR_KEY, tintColor), requestCode);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class CropPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crop);
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container) == null) {
             CropPhotoFragment cropPhotoFragment = new CropPhotoFragment();
-            cropPhotoFragment.setArguments(CropPhotoFragment.getArgs(getIntent().getStringExtra(FILENAME_KEY)));
+            cropPhotoFragment.setArguments(getIntent().getIntExtra(COLOR_KEY, Integer.MIN_VALUE) == Integer.MIN_VALUE ? CropPhotoFragment.getArgs(getIntent().getStringExtra(FILENAME_KEY)) : CropPhotoFragment.getArgs(getIntent().getStringExtra(FILENAME_KEY), getIntent().getIntExtra(COLOR_KEY, 0)));
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, cropPhotoFragment).commit();
         }
     }

@@ -12,6 +12,7 @@ import java.io.File;
 
 import cz.ackee.choosephoto.utils.FileUtils;
 import cz.ackee.choosephoto.utils.GalleryUtils;
+import cz.ackee.choosephoto.utils.UiUtils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -40,6 +41,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
     private boolean withCrop;
     // last used uri
     private Uri lastUri;
+    private int tintColor = -1;
 
     /**
      * Constructor
@@ -51,6 +53,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
         this.ctx = ctx;
         this.onPhotoPickedListener = onPhotoPickedListener;
         this.onPhotoCopyingListener = onPhotoCopyingListener;
+        tintColor = UiUtils.getColorAttribute(ctx, R.attr.colorPrimary);
     }
 
     /**
@@ -62,7 +65,16 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
         this.withCrop = withCrop;
         return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
     }
-
+    /**
+     * Returns builder for creating ChoosePhotoDialogFragment
+     *
+     * @param applicationId application id (package name)
+     */
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId, boolean withCrop, int tintColor) {
+        this.withCrop = withCrop;
+        this.tintColor = tintColor;
+        return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
+    }
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
      *
@@ -103,7 +115,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
                             .subscribe(new Action1<File>() {
                                 @Override
                                 public void call(File file) {
-                                    CropPhotoActivity.open(ctx, file.getAbsolutePath(), REQUEST_CROP);
+                                    CropPhotoActivity.open(ctx, file.getAbsolutePath(), tintColor, REQUEST_CROP);
                                 }
                             });
 

@@ -1,17 +1,25 @@
 package cz.ackee.choosephoto;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.isseiaoki.simplecropview.CropImageView;
@@ -26,6 +34,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import cz.ackee.choosephoto.R;
 
 /**
  * Fragment for photo cropping.
@@ -34,9 +43,9 @@ import rx.schedulers.Schedulers;
 public class CropPhotoFragment extends Fragment {
     public static final String TAG = CropPhotoFragment.class.getName();
     public static final String KEY_FILE = "file";
+    private static final String COLOR_KEY = "color";
     public static final int REQUEST_CROP = 456;
     public static final int MAX_SIZE = 1080;
-
 
 
     CropImageView cropImageView;
@@ -46,6 +55,13 @@ public class CropPhotoFragment extends Fragment {
     public static Bundle getArgs(String file) {
         Bundle args = new Bundle();
         args.putString(KEY_FILE, file);
+        return args;
+    }
+
+    public static Bundle getArgs(String file, int color) {
+        Bundle args = new Bundle();
+        args.putString(KEY_FILE, file);
+        args.putInt(COLOR_KEY, color);
         return args;
     }
 
@@ -123,7 +139,12 @@ public class CropPhotoFragment extends Fragment {
                     });
         }
 
+        ImageView imgDone = (ImageView) view.findViewById(R.id.btn_done);
+        Drawable wrapper = DrawableCompat.wrap(imgDone.getDrawable().mutate());
+        DrawableCompat.setTint(wrapper, getArguments().containsKey(COLOR_KEY) ? getArguments().getInt(COLOR_KEY) : UiUtils.getColorAttribute(getContext(), R.attr.colorAccent));
+        imgDone.setImageDrawable(wrapper);
     }
+
 
 
     private String getImageFile() {
