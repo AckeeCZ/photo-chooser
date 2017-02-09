@@ -51,6 +51,12 @@ The crop funcionality is disabled by default, you can enable it by passing attri
 choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager());
 ```
 
+Crop screen has Done button, that is tinted with colorPrimary from your theme. If you want to pass custom color, there is another overloaded method `getChoosePhotoDialogBuilder`
+
+```java
+choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true, Color.BLUE).show(getSupportFragmentManager());
+```
+
 If you have UI that requires to call directly camera/gallery without prompt dialog, you can call
 ```java
 choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showCamera(getActivity());
