@@ -3,6 +3,7 @@
 
 This library allows to choose pictures from system gallery or from camera, save to local cache and use them in your application. Optional cropping to square photos is available.
 
+Based on RxJava2
 ## Usage
 
 ### Android Manifest
@@ -43,7 +44,7 @@ When you want to show dialog with camera/gallery options, you call
 ```java
 choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID).show(getSupportFragmentManager());
 ```
-Its importat to pass application id (package name) because it needs to match with the one in manifest.
+Its important to pass application id (package name) because it needs to match with the one in manifest.
 
 
 The crop funcionality is disabled by default, you can enable it by passing attribute to `getChoosePhotoDialogBuilder` like
@@ -76,7 +77,7 @@ Sample app with choosing profile picture can be found in `app` module. All menti
 
 Use
 ```groovy
-compile "cz.ackee:photo-chooser:1.0.1"
+compile "cz.ackee:photo-chooser2:1.0.0"
 ```
 to add it tou your project.
 

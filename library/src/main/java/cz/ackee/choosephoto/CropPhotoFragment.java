@@ -29,12 +29,12 @@ import com.isseiaoki.simplecropview.callback.SaveCallback;
 import java.io.File;
 
 import cz.ackee.choosephoto.utils.UiUtils;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import cz.ackee.choosephoto.R;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Fragment for photo cropping.
@@ -102,15 +102,15 @@ public class CropPhotoFragment extends Fragment {
         if (cropImageView.getImageBitmap() == null) {
             Observable.just(getImageFile())
                     .subscribeOn(Schedulers.newThread())
-                    .map(new Func1<String, Bitmap>() {
+                    .map(new Function<String, Bitmap>() {
                         @Override
-                        public Bitmap call(String filename) {
+                        public Bitmap apply(String filename) {
                             return BitmapFactory.decodeFile(filename);
                         }
                     })
-                    .map(new Func1<Bitmap, Bitmap>() {
+                    .map(new Function<Bitmap, Bitmap>() {
                         @Override
-                        public Bitmap call(Bitmap bitmap) {
+                        public Bitmap apply(Bitmap bitmap) {
                             int screenWidth = UiUtils.getWindowSize(getActivity())[0];
                             if (bitmap.getWidth() >= screenWidth) {
                                 float ratio = (float) bitmap.getHeight() / bitmap.getWidth();
@@ -124,16 +124,16 @@ public class CropPhotoFragment extends Fragment {
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<Bitmap>() {
+                    .subscribe(new Consumer<Bitmap>() {
                         @Override
-                        public void call(Bitmap bitmap) {
+                        public void accept(Bitmap bitmap) {
                             if (cropImageView != null) {
                                 cropImageView.setImageBitmap(bitmap);
                             }
                         }
-                    }, new Action1<Throwable>() {
+                    }, new Consumer<Throwable>() {
                         @Override
-                        public void call(Throwable throwable) {
+                        public void accept(Throwable throwable) {
                             throwable.printStackTrace();
                         }
                     });

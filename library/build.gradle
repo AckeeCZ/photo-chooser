@@ -30,7 +30,8 @@ ext {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile "com.android.support:support-annotations:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile 'com.isseiaoki:simplecropview:1.1.0'

@@ -13,11 +13,11 @@ import java.io.File;
 import cz.ackee.choosephoto.utils.FileUtils;
 import cz.ackee.choosephoto.utils.GalleryUtils;
 import cz.ackee.choosephoto.utils.UiUtils;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.CAMERA_REQUEST;
 import static cz.ackee.choosephoto.ChoosePhotoDialogFragment.GALLERY_REQUEST;
@@ -112,9 +112,9 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
                 } else {
                     fileObservable
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Action1<File>() {
+                            .subscribe(new Consumer<File>() {
                                 @Override
-                                public void call(File file) {
+                                public void accept(File file) {
                                     CropPhotoActivity.open(ctx, file.getAbsolutePath(), tintColor, REQUEST_CROP);
                                 }
                             });
@@ -137,9 +137,9 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
     private Observable<File> onPhotoPicked(final Uri uri, final boolean fromGallery) {
         return Observable.just(new Object())
                 .subscribeOn(Schedulers.newThread())
-                .map(new Func1<Object, Boolean>() {
+                .map(new Function<Object, Boolean>() {
                          @Override
-                         public Boolean call(Object o) {
+                         public Boolean apply(Object o) {
                              if (fromGallery) {
                                  return GalleryUtils.copyUriToMyUri(ctx, uri, Uri.fromFile(FileUtils.getPictureFile(ctx, lastUri.getLastPathSegment())));
                              }
@@ -147,15 +147,15 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
                          }
                      }
                 )
-                .map(new Func1<Boolean, File>() {
+                .map(new Function<Boolean, File>() {
                     @Override
-                    public File call(Boolean success) {
+                    public File apply(Boolean success) {
                         return FileUtils.getPictureFile(ctx, lastUri.getLastPathSegment());
                     }
                 })
-                .doOnNext(new Action1<File>() {
+                .doOnNext(new Consumer<File>() {
                     @Override
-                    public void call(File file) {
+                    public void accept(File file) {
                         if (onPhotoCopyingListener != null) {
                             onPhotoCopyingListener.photoCopying(false);
                         }

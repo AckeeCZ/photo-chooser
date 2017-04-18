@@ -15,10 +15,11 @@ import com.ackee.photo_chooser.R;
 import java.io.File;
 
 import cz.ackee.choosephoto.ChoosePhotoHelper;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+
 
 /**
  * Activity with sample usage
@@ -40,16 +41,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPhotoPicked(Observable<File> fileObservable) {
                 fileObservable
-                        .map(new Func1<File, Bitmap>() {
+                        .map(new Function<File, Bitmap>() {
                             @Override
-                            public Bitmap call(File file) {
+                            public Bitmap apply(File file) {
                                 return BitmapFactory.decodeFile(file.getAbsolutePath());
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Bitmap>() {
+                        .subscribe(new Consumer<Bitmap>() {
                             @Override
-                            public void call(Bitmap file) {
+                            public void accept(Bitmap file) {
                                 imgPicture.setImageBitmap(file);
                             }
                         });
