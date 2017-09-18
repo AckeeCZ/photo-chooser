@@ -19,8 +19,8 @@ public class CropPhotoActivity extends AppCompatActivity {
     private static final String COLOR_KEY = "color";
 
 
-    public static void open(Context ctx, String filename, int tintColor, int requestCode) {
-        ((Activity) ctx).startActivityForResult(new Intent(ctx, CropPhotoActivity.class).putExtra(FILENAME_KEY, filename).putExtra(COLOR_KEY, tintColor), requestCode);
+    public static void open(Activity ctx, String filename, int tintColor, int requestCode) {
+        ctx.startActivityForResult(new Intent(ctx, CropPhotoActivity.class).putExtra(FILENAME_KEY, filename).putExtra(COLOR_KEY, tintColor), requestCode);
     }
 
     @Override

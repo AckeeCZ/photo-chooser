@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        choosePhotoHelper.restoreInstanceState(savedInstanceState);
         findViewById(R.id.btn_choose_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,5 +96,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         choosePhotoHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        choosePhotoHelper.saveInstanceState(outState);
     }
 }

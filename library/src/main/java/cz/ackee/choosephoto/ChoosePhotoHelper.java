@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -34,8 +35,11 @@ import static cz.ackee.choosephoto.CropPhotoFragment.REQUEST_CROP;
  **/
 public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltCallback {
     public static final String TAG = ChoosePhotoHelper.class.getName();
+    public static final String LAST_URI_KEY = "cz.ackee.choosephoto.last_uri";
+    public static final String WITH_CROP_KEY = "cz.ackee.choosephoto.with_crop";
+    public static final String TINT_COLOR_KEY = "cz.ackee.choosephoto.tint_color";
 
-    private final Context ctx;
+    private final Activity ctx;
     private final OnPhotoPickedListener onPhotoPickedListener;
     private final OnPhotoCopyingListener onPhotoCopyingListener;
     private boolean withCrop;
@@ -49,7 +53,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
      * @param ctx                   Context
      * @param onPhotoPickedListener Interface for callback
      */
-    public ChoosePhotoHelper(@NonNull Context ctx, @NonNull OnPhotoPickedListener onPhotoPickedListener, @Nullable OnPhotoCopyingListener onPhotoCopyingListener) {
+    public ChoosePhotoHelper(@NonNull Activity ctx, @NonNull OnPhotoPickedListener onPhotoPickedListener, @Nullable OnPhotoCopyingListener onPhotoCopyingListener) {
         this.ctx = ctx;
         this.onPhotoPickedListener = onPhotoPickedListener;
         this.onPhotoCopyingListener = onPhotoCopyingListener;
@@ -166,6 +170,22 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
     @Override
     public void dialogBuilt(Uri uri) {
         this.lastUri = uri;
+    }
+
+    public void saveInstanceState(@NonNull Bundle outState) {
+        if (lastUri != null) {
+            outState.putParcelable(LAST_URI_KEY, lastUri);
+        }
+        outState.putBoolean(WITH_CROP_KEY, withCrop);
+        outState.putInt(TINT_COLOR_KEY, tintColor);
+    }
+
+    public void restoreInstanceState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            lastUri = savedInstanceState.getParcelable(LAST_URI_KEY);
+            withCrop = savedInstanceState.getBoolean(WITH_CROP_KEY, false);
+            tintColor = savedInstanceState.getInt(TINT_COLOR_KEY, -1);
+        }
     }
 
     /**
