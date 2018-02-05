@@ -77,7 +77,7 @@ Sample app with choosing profile picture can be found in `app` module. All menti
 
 Use
 ```groovy
-compile "cz.ackee:photo-chooser2:1.0.1"
+compile "cz.ackee:photo-chooser2:1.0.2"
 ```
 to add it tou your project.
 

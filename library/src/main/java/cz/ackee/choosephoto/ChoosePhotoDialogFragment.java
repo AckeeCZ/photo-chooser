@@ -18,6 +18,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.List;
 
@@ -66,21 +68,25 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String[] items = {getArguments().getString(STRING_PICK), getArguments().getString(STRING_TAKE)};
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+        builder.setItems(items, null);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which != 0) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
                     Builder.showCamera(getActivity(), (Uri) getArguments().getParcelable(URI_KEY));
+                    alertDialog.dismiss();
                 } else {
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                         Builder.showGalleryInner(getActivity());
+                        alertDialog.dismiss();
                     } else {
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
                     }
                 }
             }
         });
-        return builder.create();
+        return alertDialog;
     }
 
 
