@@ -9,59 +9,59 @@ Based on RxJava2
 ### Android Manifest
 Its important to add this to your manifest. Library uses `FileProvider` and its specification needs to be in your `AndroidManifest.xml`
 
-```java
- <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.choose_photo"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_path"/>
-        </provider>
+```xml
+<provider
+    android:name="android.support.v4.content.FileProvider"
+    android:authorities="${applicationId}.choose_photo"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/file_provider_path"/>
+</provider>
 ```
 
 And that should be it. Do not change anything here, please.
 
-### Java
+### Usage
 Core class of library is `ChoosePhotoHelper`. First you must create instance of this helper
-```java
-     choosePhotoHelper = new ChoosePhotoHelper(this, new ChoosePhotoHelper.OnPhotoPickedListener() {
-             @Override
-             public void onPhotoPicked(Observable<File> fileObservable) {
-                //listener called when photo is available
-             }
-         }, new ChoosePhotoHelper.OnPhotoCopyingListener() {
-             @Override
-             public void photoCopying(boolean isCopying) {
-                // called when copying of photo is in progress.
-                // When picture is in some remote location (google drive), downloading and copying can take some time
-             }
-         });
+```kotlin
+val choosePhotoHelper = ChoosePhotoHelper(this, object : ChoosePhotoHelper.OnPhotoPickedListener() {
+
+        override fun onPhotoPicked(fileObservable: Observable<File>) {
+        //listener called when photo is available
+        }
+    }, object : ChoosePhotoHelper.OnPhotoCopyingListener() {
+    
+        override fun photoCopying(isCopying: Boolean) {
+        // called when copying of photo is in progress.
+        // When picture is in some remote location (i.e. google drive), downloading and copying can take some time
+        }
+    })
 ```
 
 When you want to show dialog with camera/gallery options, you call
-```java
-choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID).show(getSupportFragmentManager());
+```kotlin
+choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID).show(getSupportFragmentManager())
 ```
-Its important to pass application id (package name) because it needs to match with the one in manifest.
+It is important to pass application id (package name) because it needs to match with the one in manifest.
 
 
-The crop funcionality is disabled by default, you can enable it by passing attribute to `getChoosePhotoDialogBuilder` like
-```java
-choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager());
+The crop functionality is disabled by default, you can enable it by passing attribute to `getChoosePhotoDialogBuilder` like
+```kotlin
+choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager())
 ```
 
 Crop screen has Done button, that is tinted with colorPrimary from your theme. If you want to pass custom color, there is another overloaded method `getChoosePhotoDialogBuilder`
 
-```java
-choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true, Color.BLUE).show(getSupportFragmentManager());
+```kotlin
+choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true, Color.BLUE).show(getSupportFragmentManager())
 ```
 
 If you have UI that requires to call directly camera/gallery without prompt dialog, you can call
-```java
-choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showCamera(getActivity());
-choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showGallery(getActivity());
+```kotlin
+choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showCamera(getActivity())
+choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showGallery(getActivity())
 ```
 but you need to handle permissions request for yourself.
 
@@ -77,8 +77,6 @@ Sample app with choosing profile picture can be found in `app` module. All menti
 
 Use
 ```groovy
-compile "cz.ackee:photo-chooser2:1.0.2"
+compile "cz.ackee.photochooser:photo-chooser:x.x.x"
 ```
 to add it tou your project.
-
-This library is in development and requires javadoc, tests and cleaning.

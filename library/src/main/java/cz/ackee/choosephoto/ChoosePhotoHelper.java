@@ -27,13 +27,11 @@ import static cz.ackee.choosephoto.CropPhotoFragment.REQUEST_CROP;
 
 /**
  * Helper class for choosing an image from the device
- * <p>
- * Class using photo helper has to call pass onActivityResult callback to this class to
- * obtain picked photo.
- * <p>
- * Created by Jan Stanek[jan.stanek@ackee.cz] on {30.11.15}
- **/
+ * <p>Class using photo helper has to call pass onActivityResult callback to this class to
+ * obtain picked photo.</p>
+ */
 public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltCallback {
+
     public static final String TAG = ChoosePhotoHelper.class.getName();
     public static final String LAST_URI_KEY = "cz.ackee.choosephoto.last_uri";
     public static final String WITH_CROP_KEY = "cz.ackee.choosephoto.with_crop";
@@ -50,7 +48,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
     /**
      * Constructor
      *
-     * @param ctx                   Context
+     * @param ctx Activity to open another activities from
      * @param onPhotoPickedListener Interface for callback
      */
     public ChoosePhotoHelper(@NonNull Activity ctx, @NonNull OnPhotoPickedListener onPhotoPickedListener, @Nullable OnPhotoCopyingListener onPhotoCopyingListener) {
@@ -69,6 +67,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
         this.withCrop = withCrop;
         return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
     }
+
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
      *
@@ -79,6 +78,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
         this.tintColor = tintColor;
         return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
     }
+
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
      *
@@ -122,7 +122,6 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
                                     CropPhotoActivity.open(ctx, file.getAbsolutePath(), tintColor, REQUEST_CROP);
                                 }
                             });
-
                 }
             }
             if (requestCode == REQUEST_CROP) {
@@ -192,6 +191,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
      * Interface to obtained picked image in a file
      */
     public interface OnPhotoPickedListener {
+
         /**
          * Photo was picked
          *
@@ -204,6 +204,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
      * Interface indicating that copying is in progress
      */
     public interface OnPhotoCopyingListener {
+
         /**
          * Photo has begin copying
          *

@@ -27,9 +27,9 @@ import cz.ackee.choosephoto.utils.FileUtils;
 
 /**
  * Dialog with choices of selecting picture
- * Created by David Bilik[david.bilik@ackee.cz] on {8. 4. 2015}
  */
 public class ChoosePhotoDialogFragment extends DialogFragment {
+
     public static final String TAG = ChoosePhotoDialogFragment.class.getName();
     public static final int CAMERA_REQUEST = 12;
     public static final int GALLERY_REQUEST = 13;
@@ -40,9 +40,9 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
     private static final int REQUEST_PERMISSION = 123;
 
     public interface DialogBuiltCallback {
+
         public void dialogBuilt(Uri uri);
     }
-
 
     private static ChoosePhotoDialogFragment newInstance(Uri uri, String pickPhoto, String
             takePhoto) {
@@ -89,7 +89,6 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
         return alertDialog;
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult() called with: " + "requestCode = [" + requestCode + "], permissions = [" + permissions + "], grantResults = [" + grantResults + "]");
@@ -108,7 +107,6 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
         private String pickPhotoString = "Pick photo";
         private String takePhotoString = "Take photo";
         private String fileName = "temp.jpg";
-
 
         public Builder(Context ctx, String authority, DialogBuiltCallback callback) {
             this.ctx = ctx;
@@ -155,7 +153,6 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
         private Uri buildUri() {
             return FileUtils.getUriForFilename(ctx, authority, fileName);
         }
-
 
         private static void showCamera(Activity ac, Uri uri) {
             Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

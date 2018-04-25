@@ -9,15 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Activity that holds crop photo fragment
- *
- * @author David Bilik [david.bilik@ackee.cz]
- * @since 07/02/2017
- **/
+ */
 public class CropPhotoActivity extends AppCompatActivity {
+
     public static final String TAG = CropPhotoActivity.class.getName();
     private static final String FILENAME_KEY = "filename";
     private static final String COLOR_KEY = "color";
-
 
     public static void open(Activity ctx, String filename, int tintColor, int requestCode) {
         ctx.startActivityForResult(new Intent(ctx, CropPhotoActivity.class).putExtra(FILENAME_KEY, filename).putExtra(COLOR_KEY, tintColor), requestCode);

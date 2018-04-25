@@ -23,10 +23,7 @@ import io.reactivex.functions.Function;
 
 /**
  * Activity with sample usage
- *
- * @author David Bilik [david.bilik@ackee.cz]
- * @since 07/02/2017
- **/
+ */
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getName();
     private ChoosePhotoHelper choosePhotoHelper;

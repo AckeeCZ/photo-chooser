@@ -38,15 +38,14 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Fragment for photo cropping.
- * Created by Georgiy Shur (georgiy.shur@ackee.cz) on 4/18/2016.
  */
 public class CropPhotoFragment extends Fragment {
+
     public static final String TAG = CropPhotoFragment.class.getName();
     public static final String KEY_FILE = "file";
     private static final String COLOR_KEY = "color";
     public static final int REQUEST_CROP = 456;
     public static final int MAX_SIZE = 1080;
-
 
     CropImageView cropImageView;
     ProgressBar progressBar;
@@ -145,8 +144,6 @@ public class CropPhotoFragment extends Fragment {
         imgDone.setImageDrawable(wrapper);
     }
 
-
-
     private String getImageFile() {
         return getArguments().getString(KEY_FILE);
     }
@@ -154,7 +151,6 @@ public class CropPhotoFragment extends Fragment {
     public void rotate() {
         cropImageView.rotateImage(CropImageView.RotateDegrees.ROTATE_M90D);
     }
-
 
     public void done() {
         showProgress(true);
@@ -165,7 +161,7 @@ public class CropPhotoFragment extends Fragment {
             }
 
             @Override
-            public void onError() {
+            public void onError(Throwable t) {
 //                showSnack(R.string.photo_crop_error);
             }
         }, new SaveCallback() {
@@ -178,7 +174,7 @@ public class CropPhotoFragment extends Fragment {
             }
 
             @Override
-            public void onError() {
+            public void onError(Throwable t) {
 //                showSnack(R.string.photo_crop_error);
             }
         });
@@ -188,5 +184,4 @@ public class CropPhotoFragment extends Fragment {
         progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         content.setVisibility(show ? View.GONE : View.VISIBLE);
     }
-
 }
