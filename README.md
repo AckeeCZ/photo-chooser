@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/ackeecz/photo-chooser/photo-chooser/images/download.svg) ](https://bintray.com/ackeecz/photo-chooser/photo-chooser/_latestVersion)
+
 # Android Image Photo Chooser
 ## Purpose of library
 
