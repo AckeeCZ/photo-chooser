@@ -21,7 +21,6 @@ import java.net.URL;
 
 /**
  * Utility class for working with gallery
- * Created by David Bilik[david.bilik@ackee.cz] & Jan Stanek[jan.stanek@ackee.cz] on {8. 4. 2015}
  */
 public class GalleryUtils {
     public static final String TAG = GalleryUtils.class.getName();
@@ -140,8 +139,9 @@ public class GalleryUtils {
      * represents a local file.
      *
      * @param context The context.
-     * @param uri     The Uri to query.
+     * @param uri The Uri to query.
      * @author paulburke
+     * @return file path from the Uri
      */
     public static String getPath(final Context context, final Uri uri) {
 

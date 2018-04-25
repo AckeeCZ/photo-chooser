@@ -26,8 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 
 /**
  * Utilities for UI related things like device size or conversion from dp to px
- * Created by David Bilik[david.bilik@ackee.cz] on {18/12/15}
- **/
+ */
 public class UiUtils {
     public static final String TAG = UiUtils.class.getName();
 

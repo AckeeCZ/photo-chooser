@@ -23,7 +23,7 @@ Its important to add this to your manifest. Library uses `FileProvider` and its 
 
 And that should be it. Do not change anything here, please.
 
-### Usage
+### Code
 Core class of library is `ChoosePhotoHelper`. First you must create instance of this helper
 ```kotlin
 val choosePhotoHelper = ChoosePhotoHelper(this, object : ChoosePhotoHelper.OnPhotoPickedListener() {

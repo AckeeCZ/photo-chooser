@@ -195,7 +195,7 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
         /**
          * Photo was picked
          *
-         * @param fileObservable
+         * @param fileObservable observable that emits the picked file
          */
         void onPhotoPicked(Observable<File> fileObservable);
     }

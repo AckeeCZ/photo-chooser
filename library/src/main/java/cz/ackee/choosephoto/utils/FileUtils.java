@@ -9,16 +9,15 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * utility methods for working with files
- * Created by David Bilik[david.bilik@ackee.cz] on {06.08.2015}
- **/
+ * Utility methods for working with files
+ */
 public class FileUtils {
     public static final String TAG = FileUtils.class.getName();
 
     /**
      * Get directory in which photos will be stored
-     * @param ctx
-     * @return
+     * @param ctx Context in which the cache folder is looked up in
+     * @return the directori in which the photos are saved in
      */
     public static File getPhotosDir(Context ctx) {
         File photos = new File((ctx.getCacheDir()), "photos");
@@ -30,9 +29,9 @@ public class FileUtils {
 
     /**
      * Get file in which picture will be stored
-     * @param context
-     * @param filename
-     * @return
+     * @param context Context in which the photos directory is looked up in
+     * @param filename Name of the future file
+     * @return file to store the picture into
      */
     public static File getPictureFile(Context context, String filename) {
         File f = new File(getPhotosDir(context), filename);
@@ -51,8 +50,8 @@ public class FileUtils {
     /**
      * Return uri of file to which photo will be stored
      *
-     * @param ctx
-     * @return
+     * @param ctx Context in which the photos directory is looked up in
+     * @return uri of file to which photo will be stored
      */
     public static Uri getUriForFilename(Context ctx, String authority, String filename) {
         Uri imageUri = FileProvider.getUriForFile(ctx, authority, getPictureFile(ctx, filename));
