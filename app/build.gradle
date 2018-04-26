@@ -25,6 +25,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation project(":library")
+    implementation project(':photo-chooser')
     testImplementation 'junit:junit:4.12'
 }
