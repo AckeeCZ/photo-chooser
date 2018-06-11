@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -38,8 +39,10 @@ public class CropPhotoFragment extends Fragment {
     public static final String TAG = CropPhotoFragment.class.getName();
     public static final String KEY_FILE = "file";
     private static final String COLOR_KEY = "color";
+    private static final String MAX_WIDTH_KEY = "max_width";
+    private static final String MAX_HEIGHT_KEY = "max_height";
     public static final int REQUEST_CROP = 456;
-    public static final int MAX_SIZE = 1080;
+    public static final int DEFAULT_MAX_SIZE = 1080;
 
     CropImageView cropImageView;
     ProgressBar progressBar;
@@ -47,16 +50,18 @@ public class CropPhotoFragment extends Fragment {
     ImageButton rotateButton;
     ImageButton doneButton;
 
-    public static Bundle getArgs(String file) {
+    public static Bundle getArgs(@NonNull String file, @Nullable Integer color, @Nullable Integer maxWidth, @Nullable Integer maxHeight) {
         Bundle args = new Bundle();
         args.putString(KEY_FILE, file);
-        return args;
-    }
-
-    public static Bundle getArgs(String file, int color) {
-        Bundle args = new Bundle();
-        args.putString(KEY_FILE, file);
-        args.putInt(COLOR_KEY, color);
+        if (color != null) {
+            args.putInt(COLOR_KEY, color);
+        }
+        if (maxWidth != null) {
+            args.putInt(MAX_WIDTH_KEY, maxWidth);
+        }
+        if (maxHeight != null) {
+            args.putInt(MAX_HEIGHT_KEY, maxHeight);
+        }
         return args;
     }
 
@@ -81,7 +86,8 @@ public class CropPhotoFragment extends Fragment {
         rotateButton = view.findViewById(R.id.btn_rotate);
         doneButton = view.findViewById(R.id.btn_done);
 
-        cropImageView.setOutputMaxSize(MAX_SIZE, MAX_SIZE);
+        cropImageView.setOutputMaxSize(getArguments().getInt(MAX_WIDTH_KEY, DEFAULT_MAX_SIZE), getArguments().getInt(MAX_HEIGHT_KEY, DEFAULT_MAX_SIZE));
+        cropImageView.setCustomRatio(getArguments().getInt(MAX_WIDTH_KEY, DEFAULT_MAX_SIZE), getArguments().getInt(MAX_HEIGHT_KEY, DEFAULT_MAX_SIZE));
 
         rotateButton.setEnabled(false); // to prevent clicks when cropImageView is not yet populated with bitmap
         rotateButton.setOnClickListener(new View.OnClickListener() {

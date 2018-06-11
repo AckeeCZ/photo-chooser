@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final ImageView imgPicture = (ImageView) findViewById(R.id.img_avatar);
+        final ImageView imgPicture = findViewById(R.id.img_avatar);
         choosePhotoHelper = new ChoosePhotoHelper(this, new ChoosePhotoHelper.OnPhotoPickedListener() {
             @Override
             public void onPhotoPicked(Observable<File> fileObservable) {
@@ -69,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager());
+            }
+        });
+        findViewById(R.id.btn_choose_photo_with_crop_wide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true, getResources().getColor(R.color.colorPrimary), 1920, 1080).show(getSupportFragmentManager());
             }
         });
         findViewById(R.id.btn_choose_photo_custom_dialog).setOnClickListener(new View.OnClickListener() {
