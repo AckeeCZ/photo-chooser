@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +25,9 @@ import com.isseiaoki.simplecropview.callback.CropCallback;
 import com.isseiaoki.simplecropview.callback.SaveCallback;
 
 import java.io.File;
+import java.io.IOException;
 
+import cz.ackee.choosephoto.utils.GalleryUtils;
 import cz.ackee.choosephoto.utils.UiUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -110,21 +114,35 @@ public class CropPhotoFragment extends Fragment {
                     .map(new Function<String, Bitmap>() {
                         @Override
                         public Bitmap apply(String filename) {
-                            return BitmapFactory.decodeFile(filename);
-                        }
-                    })
-                    .map(new Function<Bitmap, Bitmap>() {
-                        @Override
-                        public Bitmap apply(Bitmap bitmap) {
+                            Bitmap bitmap = BitmapFactory.decodeFile(filename);
+
                             int screenWidth = UiUtils.getWindowSize(getActivity())[0];
                             if (bitmap.getWidth() >= screenWidth) {
                                 float ratio = (float) bitmap.getHeight() / bitmap.getWidth();
                                 Bitmap resized = Bitmap.createScaledBitmap(bitmap, screenWidth, (int) (screenWidth * ratio), false);
                                 if (bitmap != resized) {
                                     bitmap.recycle();
+                                    bitmap = resized;
                                 }
-                                return resized;
                             }
+
+                            try {
+                                ExifInterface exif = new ExifInterface(filename);
+                                int rotationDegrees = GalleryUtils.getRotationDegrees(exif);
+                                if (rotationDegrees != 0) {
+                                    Matrix m = new Matrix();
+                                    m.preRotate(rotationDegrees);
+
+                                    Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, false);
+                                    if (rotated != bitmap) {
+                                        bitmap.recycle();
+                                    }
+                                    bitmap = rotated;
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             return bitmap;
                         }
                     })
