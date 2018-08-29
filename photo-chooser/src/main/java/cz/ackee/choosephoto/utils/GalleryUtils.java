@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -215,6 +216,16 @@ public class GalleryUtils {
         final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
 
         return Uri.withAppendedPath(BASE_URI, "profile");
+    }
+
+    public static int getRotationDegrees(ExifInterface exif) {
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90: return 90;
+            case ExifInterface.ORIENTATION_ROTATE_180: return 180;
+            case ExifInterface.ORIENTATION_ROTATE_270: return 270;
+            default: return 0;
+        }
     }
 
     private static boolean storeImageFromUri(Context ctx, Uri remoteUri, Uri myUri) {
