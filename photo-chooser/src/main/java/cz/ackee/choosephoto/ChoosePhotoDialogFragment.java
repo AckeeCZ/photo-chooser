@@ -103,15 +103,13 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
 
         private final Context ctx;
         private final DialogBuiltCallback callback;
-        private final String authority;
         private String pickPhotoString = "Pick photo";
         private String takePhotoString = "Take photo";
         private String fileName = "temp.jpg";
 
-        public Builder(Context ctx, String authority, DialogBuiltCallback callback) {
+        public Builder(Context ctx, DialogBuiltCallback callback) {
             this.ctx = ctx;
             this.callback = callback;
-            this.authority = authority;
         }
 
         public Builder setTakePhotoString(@StringRes int takePhoto) {
@@ -151,7 +149,7 @@ public class ChoosePhotoDialogFragment extends DialogFragment {
         }
 
         private Uri buildUri() {
-            return FileUtils.getUriForFilename(ctx, authority, fileName);
+            return FileUtils.getUriForFilename(ctx, ctx.getPackageName() + ".choose_photo", fileName);
         }
 
         private static void showCamera(Activity ac, Uri uri) {

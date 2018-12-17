@@ -61,46 +61,70 @@ public class ChoosePhotoHelper implements ChoosePhotoDialogFragment.DialogBuiltC
     }
 
     /**
-     * Returns builder for creating ChoosePhotoDialogFragment
-     *
-     * @param applicationId application id (package name)
+     * Deprecated. Use method without applicationId parameter.
      */
+    @Deprecated
     public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId, boolean withCrop) {
-        this.withCrop = withCrop;
-        return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
+        return getChoosePhotoDialogBuilder(withCrop);
     }
 
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
-     *
-     * @param applicationId application id (package name)
      */
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(boolean withCrop) {
+        this.withCrop = withCrop;
+        return new ChoosePhotoDialogFragment.Builder(ctx, this);
+    }
+
+    /**
+     * Deprecated. Use method without applicationId parameter.
+     */
+    @Deprecated
     public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId, boolean withCrop, int tintColor) {
+        return getChoosePhotoDialogBuilder(withCrop, tintColor);
+    }
+
+    /**
+     * Returns builder for creating ChoosePhotoDialogFragment
+     */
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(boolean withCrop, int tintColor) {
         this.withCrop = withCrop;
         this.tintColor = tintColor;
-        return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
+        return new ChoosePhotoDialogFragment.Builder(ctx, this);
+    }
+
+    /**
+     * Deprecated. Use method without applicationId parameter.
+     */
+    @Deprecated
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId, boolean withCrop, int tintColor, Integer maxWidth, Integer maxHeight) {
+        return getChoosePhotoDialogBuilder(withCrop, tintColor, maxWidth, maxHeight);
     }
 
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
-     *
-     * @param applicationId application id (package name)
      */
-    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId, boolean withCrop, int tintColor, Integer maxWidth, Integer maxHeight) {
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(boolean withCrop, int tintColor, Integer maxWidth, Integer maxHeight) {
         this.withCrop = withCrop;
         this.tintColor = tintColor;
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
-        return new ChoosePhotoDialogFragment.Builder(ctx, applicationId + ".choose_photo", this);
+        return new ChoosePhotoDialogFragment.Builder(ctx, this);
+    }
+
+    /**
+     * Deprecated. Use method without applicationId parameter.
+     */
+    @Deprecated
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId) {
+        return getChoosePhotoDialogBuilder();
     }
 
     /**
      * Returns builder for creating ChoosePhotoDialogFragment
-     *
-     * @param applicationId application id (package name)
      */
-    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder(String applicationId) {
-        return getChoosePhotoDialogBuilder(applicationId, false);
+    public ChoosePhotoDialogFragment.Builder getChoosePhotoDialogBuilder() {
+        return getChoosePhotoDialogBuilder(false);
     }
 
     /**

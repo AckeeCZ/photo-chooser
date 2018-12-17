@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.ackee.photo_chooser.BuildConfig;
 import com.ackee.photo_chooser.R;
 
 import java.io.File;
@@ -27,7 +26,6 @@ import io.reactivex.functions.Function;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getName();
     private ChoosePhotoHelper choosePhotoHelper;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,25 +60,25 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_choose_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID).show(getSupportFragmentManager());
+                choosePhotoHelper.getChoosePhotoDialogBuilder().show(getSupportFragmentManager());
             }
         });
         findViewById(R.id.btn_choose_photo_with_crop).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).show(getSupportFragmentManager());
+                choosePhotoHelper.getChoosePhotoDialogBuilder(true).show(getSupportFragmentManager());
             }
         });
         findViewById(R.id.btn_choose_photo_with_crop_wide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true, getResources().getColor(R.color.colorPrimary), 1920, 1080).show(getSupportFragmentManager());
+                choosePhotoHelper.getChoosePhotoDialogBuilder(true, getResources().getColor(R.color.colorPrimary), 1920, 1080).show(getSupportFragmentManager());
             }
         });
         findViewById(R.id.btn_choose_photo_custom_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true)
+                choosePhotoHelper.getChoosePhotoDialogBuilder(true)
                         .setPickPhotoString("Gallery selection")
                         .setTakePhotoString("Selfie Time!")
                         .setFileName("myselfie.jpg")
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_take_picture_directly).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choosePhotoHelper.getChoosePhotoDialogBuilder(BuildConfig.APPLICATION_ID, true).showCamera(MainActivity.this);
+                choosePhotoHelper.getChoosePhotoDialogBuilder(true).showCamera(MainActivity.this);
             }
         });
     }
