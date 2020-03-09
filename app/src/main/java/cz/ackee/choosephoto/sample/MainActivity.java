@@ -14,16 +14,18 @@ import java.io.File;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import cz.ackee.choosephoto.ChoosePhotoHelper;
+import cz.ackee.choosephoto.OnPhotoCopyingListener;
+import cz.ackee.choosephoto.OnPhotoPickedListener;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-
 /**
  * Activity with sample usage
  */
 public class MainActivity extends AppCompatActivity {
+
     public static final String TAG = MainActivity.class.getName();
     private ChoosePhotoHelper choosePhotoHelper;
 
@@ -32,28 +34,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ImageView imgPicture = findViewById(R.id.img_avatar);
-        choosePhotoHelper = new ChoosePhotoHelper(this, new ChoosePhotoHelper.OnPhotoPickedListener() {
-            @Override
-            public void onPhotoPicked(Observable<File> fileObservable) {
-                fileObservable
-                        .map(new Function<File, Bitmap>() {
-                            @Override
-                            public Bitmap apply(File file) {
-                                return BitmapFactory.decodeFile(file.getAbsolutePath());
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<Bitmap>() {
-                            @Override
-                            public void accept(Bitmap file) {
-                                imgPicture.setImageBitmap(file);
-                            }
-                        });
-            }
-        }, new ChoosePhotoHelper.OnPhotoCopyingListener() {
+        choosePhotoHelper = new ChoosePhotoHelper(this, new OnPhotoCopyingListener() {
             @Override
             public void photoCopying(boolean isCopying) {
 
+            }
+        }, new OnPhotoPickedListener() {
+            @Override
+            public void onPhotoPicked(Observable<File> fileObservable) {
+                fileObservable
+                    .map(new Function<File, Bitmap>() {
+                        @Override
+                        public Bitmap apply(File file) {
+                            return BitmapFactory.decodeFile(file.getAbsolutePath());
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Bitmap>() {
+                        @Override
+                        public void accept(Bitmap file) {
+                            imgPicture.setImageBitmap(file);
+                        }
+                    });
             }
         });
         choosePhotoHelper.restoreInstanceState(savedInstanceState);
@@ -79,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 choosePhotoHelper.getChoosePhotoDialogBuilder(true)
-                        .setPickPhotoString("Gallery selection")
-                        .setTakePhotoString("Selfie Time!")
-                        .setFileName("myselfie.jpg")
-                        .show(getSupportFragmentManager());
+                    .setPickPhotoString("Gallery selection")
+                    .setTakePhotoString("Selfie Time!")
+                    .setFileName("myselfie.jpg")
+                    .show(getSupportFragmentManager());
             }
         });
         findViewById(R.id.btn_take_picture_directly).setOnClickListener(new View.OnClickListener() {
