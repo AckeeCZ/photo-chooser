@@ -1,16 +1,15 @@
 package cz.ackee.choosephoto;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.File;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import cz.ackee.choosephoto.utils.FileUtils;
 import cz.ackee.choosephoto.utils.GalleryUtils;
 import cz.ackee.choosephoto.utils.UiUtils;

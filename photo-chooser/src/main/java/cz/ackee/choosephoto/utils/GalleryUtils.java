@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +23,6 @@ import java.net.URL;
  * Utility class for working with gallery
  */
 public class GalleryUtils {
-    public static final String TAG = GalleryUtils.class.getName();
-
 
     /**
      * @param uri The Uri to check.
@@ -244,7 +241,6 @@ public class GalleryUtils {
     }
 
     private static void copyFile(InputStream is, Uri dstUri) throws IOException {
-        Log.d(TAG, "copyFile() called with: is = [" + is + "], dstUri = [" + dstUri + "]");
         File dstFile = new File(dstUri.getPath());
         if(!dstFile.exists()) {
             dstFile.createNewFile();

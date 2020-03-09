@@ -9,10 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +23,10 @@ import com.isseiaoki.simplecropview.callback.SaveCallback;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.Fragment;
 import cz.ackee.choosephoto.utils.GalleryUtils;
 import cz.ackee.choosephoto.utils.UiUtils;
 import io.reactivex.Observable;
@@ -187,7 +187,6 @@ public class CropPhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable t) {
-//                showSnack(R.string.photo_crop_error);
             }
         }, new SaveCallback() {
             @Override
@@ -200,7 +199,6 @@ public class CropPhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable t) {
-//                showSnack(R.string.photo_crop_error);
             }
         });
     }

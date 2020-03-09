@@ -2,11 +2,12 @@ package cz.ackee.choosephoto.utils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.core.content.FileProvider;
 
 /**
  * Utility methods for working with files
