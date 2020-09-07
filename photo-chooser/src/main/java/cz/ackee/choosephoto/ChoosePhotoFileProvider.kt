@@ -1,6 +1,6 @@
-package cz.ackee.choosephoto;
+package cz.ackee.choosephoto
 
-import androidx.core.content.FileProvider;
+import androidx.core.content.FileProvider
 
 /**
  * This file provider defines directory in which app can store photos. Referencing
@@ -10,5 +10,4 @@ import androidx.core.content.FileProvider;
  *
  * Defined by [res/xml/file_provider_paths.xml]
  */
-public class ChoosePhotoFileProvider extends FileProvider {
-}
+class ChoosePhotoFileProvider : FileProvider()
